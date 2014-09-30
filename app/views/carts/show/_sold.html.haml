@@ -4,3 +4,11 @@
   = t 'cart.texts.explain'
 - cart.line_item_groups.each do |group|
   = render 'line_item_groups/shared/listitem' , line_item_group: group
+
+-# Track purchase with piwik
+- if @track_purchase
+  :javascript
+    var _paq = _paq || [];
+    _paq.push(['trackGoal', 1]);
+    console.log('Tracked...');
+    console.log(_paq);

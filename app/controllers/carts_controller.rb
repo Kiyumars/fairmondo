@@ -57,6 +57,7 @@ class CartsController < ApplicationController
       clear_session
       flash[:notice] = I18n.t('cart.notices.checkout_success') if @cart.save
       cookies.delete :cart
+      @track_purchase = true  # For piwik tracking of buys
       respond_with @cart
     when :checkout_failed
       # failed because something isnt available anymore
