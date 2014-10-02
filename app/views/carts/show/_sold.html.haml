@@ -1,3 +1,6 @@
+- if params[:just_purchased]
+  %h1 Vielen Dank für Deinen Einkauf
+
 %h2
   = t 'cart.texts.purchase_from', date: I18n.l(cart.updated_at)
 %p

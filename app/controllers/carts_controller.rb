@@ -13,7 +13,7 @@ class CartsController < ApplicationController
   def show
     if @cart.sold?
       # redirect directly to a purchase view if there is only one lig to purchase
-      return redirect_to @cart.line_item_groups.first if @cart.line_item_groups.count == 1
+      #return redirect_to @cart.line_item_groups.first if @cart.line_item_groups.count == 1
     else
       @cart_abacus = CartAbacus.new @cart
       @line_items_valid = all_line_items_valid?
@@ -46,7 +46,7 @@ class CartsController < ApplicationController
     when :invalid
       render :edit
     when :saved_in_session
-      redirect_to edit_cart_path(@cart, checkout: true)
+      redirect_to edit_cart_url(@cart, checkout: true)
     when :checked_out
       ###################################################
       # DO NOT PUT ANY CODE HERE THAT CAN FAIL !!!! #####
@@ -55,10 +55,9 @@ class CartsController < ApplicationController
       # put it into the transaction of Cart#buy.
       ###################################################
       clear_session
-      flash[:notice] = I18n.t('cart.notices.checkout_success') if @cart.save
+      #flash[:notice] = I18n.t('cart.notices.checkout_success') if @cart.save
       cookies.delete :cart
-      @track_purchase = true  # For piwik tracking of buys
-      respond_with @cart
+      redirect_to cart_url(@cart, just_purchased: true)
     when :checkout_failed
       # failed because something isnt available anymore
       flash[:error] = I18n.t('cart.notices.checkout_failed')
