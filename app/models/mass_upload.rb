@@ -38,7 +38,12 @@ class MassUpload < ActiveRecord::Base
       transition :finished => :finished
     end
 
-    after_transition :to => :finished do |mass_upload,transition|
+    event :mass_activate do
+      transition :finished => :activated
+      transition :activated => :activated
+    end
+
+    after_transition :to => :finished do |mass_upload, transition|
       mass_upload.user.notify I18n.t('mass_uploads.labels.finished'),  Rails.application.routes.url_helpers.mass_upload_path(mass_upload)
     end
 
@@ -46,6 +51,12 @@ class MassUpload < ActiveRecord::Base
       mass_upload.failure_reason = transition.args.first
       mass_upload.save
       mass_upload.user.notify I18n.t('mass_uploads.labels.failed'), Rails.application.routes.url_helpers.user_path(mass_upload.user, anchor: "my_mass_uploads"), :error
+    end
+
+    after_transition :to => :activated do |mass_upload, transition|
+      Indexer.delay.index_mass_upload mass_upload.id
+      mass_upload.articles_for_mass_activation.update_all(state: 'active')
+      ArticleMailer.delay.mass_upload_activation_message(mass_upload.id)
     end
   end
 

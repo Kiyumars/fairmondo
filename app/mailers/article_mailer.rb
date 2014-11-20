@@ -56,12 +56,6 @@ class ArticleMailer < ActionMailer::Base
     mail(to: @user.email, subject: "[Fairmondo] Du hast Deine per CSV-Dateien eingestellten Artikel aktiviert")
   end
 
-  def mass_upload_deletion_message mass_upload_id
-    @mass_upload = MassUpload.find mass_upload_id
-    @user = @mass_upload.user
-    mail(to: @user.email, subject: "[Fairmondo] Du hast Artikel per CSV-Datei gelöscht")
-  end
-
   private
 
     # attaches terms pdf to emails
