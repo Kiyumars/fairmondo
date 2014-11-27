@@ -19,4 +19,64 @@
 / You should have received a copy of the GNU Affero General Public License
 / along with Fairmondo.  If not, see <http://www.gnu.org/licenses/>.
 /
+
+/ Check if any filters are set exclusively. In these cases, a specific
+/ landing page is put into :category_specific_content and rendered in
+/ 'articles/shared/search_results'
+- if @search_cache.exclusive_filter? :fair
+  / display fair landing page
+  - content_for :category_specific_content
+    - content_for(:is_exclusive, true)
+    .features
+      = render "featured_library", featured_library: :fair1, mode: :full_page
+      = render "featured_library", featured_library: :fair2, mode: :full_page
+      = render "featured_library", featured_library: :fair3, mode: :half_page
+      = render "featured_library", featured_library: :fair4, mode: :half_page_last
+      = render "featured_library", featured_library: :fair5, mode: :half_page
+      = render "featured_library", featured_library: :fair6, mode: :half_page_last
+      = render "featured_library", featured_library: :fair7, mode: :half_page
+      = render "featured_library", featured_library: :fair8, mode: :half_page_last
+
+- elsif @search_cache.exclusive_filter? :ecologic
+  / display ecologic landing page
+  - content_for :category_specific_content
+    - content_for(:is_exclusive, true)
+    .features
+      = render "featured_library", featured_library: :eco1, mode: :full_page
+      = render "featured_library", featured_library: :eco2, mode: :full_page
+      = render "featured_library", featured_library: :eco3, mode: :half_page
+      = render "featured_library", featured_library: :eco4, mode: :half_page_last
+      = render "featured_library", featured_library: :eco5, mode: :half_page
+      = render "featured_library", featured_library: :eco6, mode: :half_page_last
+      = render "featured_library", featured_library: :eco7, mode: :half_page
+      = render "featured_library", featured_library: :eco8, mode: :half_page_last
+
+- elsif @search_cache.exclusive_filter? :small_and_precious
+  / display small and precious landing page
+  - content_for :category_specific_content
+    - content_for(:is_exclusive, true)
+    .features
+      = render "featured_library", featured_library: :small1, mode: :full_page
+      = render "featured_library", featured_library: :small2, mode: :full_page
+      = render "featured_library", featured_library: :small3, mode: :half_page
+      = render "featured_library", featured_library: :small4, mode: :half_page_last
+      = render "featured_library", featured_library: :small5, mode: :half_page
+      = render "featured_library", featured_library: :small6, mode: :half_page_last
+      = render "featured_library", featured_library: :small7, mode: :half_page
+      = render "featured_library", featured_library: :small8, mode: :half_page_last
+
+- elsif @search_cache.exclusive_filter?(:condition) && @search_cache.old?
+  / display landing page with used articles
+  - content_for :category_specific_content
+    - content_for(:is_exclusive, true)
+    .features
+      = render "featured_library", featured_library: :used1, mode: :full_page
+      = render "featured_library", featured_library: :used2, mode: :full_page
+      = render "featured_library", featured_library: :used3, mode: :half_page
+      = render "featured_library", featured_library: :used4, mode: :half_page_last
+      = render "featured_library", featured_library: :used5, mode: :half_page
+      = render "featured_library", featured_library: :used6, mode: :half_page_last
+      = render "featured_library", featured_library: :used7, mode: :half_page
+      = render "featured_library", featured_library: :used8, mode: :half_page_last
+
 = render '/articles/shared/search_results', articles: @articles, search_cache: @search_cache

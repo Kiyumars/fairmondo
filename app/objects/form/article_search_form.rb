@@ -51,6 +51,25 @@ class ArticleSearchForm
     filter_attributes.reject{ |k,v| k==:category_id }.empty?
   end
 
+  # Is condition set to 'old'?
+  def old?
+    self.condition == 'old'
+  end
+
+  # Check if filter is set exclusively (used for delivering filter landing page)
+  # Examples:
+  #   exclusive_filter? :fair
+  #   exclusive_filter? :condition
+  def exclusive_filter? filter
+    attrs = filter_attributes.select { |k,v| k == :fair || k == :ecologic || k == :small_and_precious || k == :condition }
+
+    if attrs.length == 1 && (attrs.include? filter)
+      return true
+    else
+      return false
+    end
+  end
+
   def fresh?
     filter_attributes.empty?
   end
