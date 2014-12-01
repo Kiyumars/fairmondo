@@ -38,6 +38,8 @@ class Payment < ActiveRecord::Base
     case selected_payment
     when 'paypal', :paypal
       'PaypalPayment'
+    when 'voucher', :voucher
+      'VoucherPayment'
     else
       nil
     end

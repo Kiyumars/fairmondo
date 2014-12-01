@@ -19,24 +19,28 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Fairmondo.  If not, see <http://www.gnu.org/licenses/>.
 #
-class PaymentsController < ApplicationController
-  respond_to :html
+class VoucherPayment < Payment
+  extend STI
 
-  # create happens on buy. this is to initialize the payment with paypal
-  def create
-    payment_attrs = params.for(Payment).refine.merge(line_item_group_id: params[:line_item_group_id])
-    @payment = Payment.new payment_attrs
-    authorize @payment
-    if @payment.execute
-      redirect_to @payment.after_create_path
-    else
-      redirect_to :back, flash: { error: I18n.t('paypal_api.controller_error', email: @payment.line_item_group_seller_paypal_account).html_safe }
-    end
+  def after_create_path
+    :back
   end
 
-  def show
-    @payment = Payment.find(params[:id])
-    authorize @payment
-    redirect_to PaypalAPI.checkout_url @payment.pay_key
+  # Code "15ABC" = 15 Euro
+  def voucher_value
+    Money.new(pay_key.match(/\A\d+/)[0].to_i * 100)
+  end
+
+  # @return [Boolean]
+  def covers total
+    voucher_value >= total
+  end
+
+  def donated_amount_from total
+    voucher_value - total
+  end
+
+  def left_over_amount_from total
+    total - voucher_value
   end
 end

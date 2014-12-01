@@ -37,6 +37,7 @@ de:
       bank_transfer: 'Überweisung'
       invoice: 'Rechnung'
       cash: 'Barzahlung bei Abholung'
+      voucher: Gutschein
     article:
       contact:
         text_beginning: 'Ein*e Fairmondo-Nutzer*in hat dir eine Rückfrage zu deinem Artikel'

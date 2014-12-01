@@ -1,0 +1,5 @@
+de:
+  payment:
+    show:
+      voucher_covers: "Vielen Dank! Der benutzte Gutschein (<i>%{code}</i>) deckt Deine Bestellung ab und es werden <b>%{donated}</b> gespendet."
+      voucher_doesnt_cover: "Der benutzte Gutschein (<i>%{code}</i>) deckt nur %{covers} ab.<br>Bitte überweise den Restbetrag von <b>%{left}</b>."

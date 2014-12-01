@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125120458) do
+ActiveRecord::Schema.define(version: 20141201123752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20141125120458) do
     t.boolean  "borrowable",                                       default: false
     t.integer  "comments_count",                                   default: 0
     t.integer  "original_id",                            limit: 8
+    t.boolean  "payment_voucher",                                  default: false
   end
 
   add_index "articles", ["created_at"], name: "index_articles_on_created_at", using: :btree
@@ -429,6 +430,7 @@ ActiveRecord::Schema.define(version: 20141125120458) do
     t.integer  "line_item_group_id", limit: 8, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "code"
   end
 
   add_index "payments", ["line_item_group_id"], name: "index_payment_on_line_item_group_id", using: :btree
@@ -566,6 +568,7 @@ ActiveRecord::Schema.define(version: 20141125120458) do
     t.integer  "free_transport_at_price_cents",      limit: 8, default: 0
     t.boolean  "receive_comments_notification",                default: true
     t.boolean  "heavy_uploader",                               default: false
+    t.boolean  "uses_vouchers",                                default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
